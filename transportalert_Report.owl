@@ -1,0 +1,124 @@
+Prefix: : <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportalert/>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: xml: <http://www.w3.org/XML/1998/namespace>
+Prefix: time: <https://www.w3.org/2006/time#>
+Prefix: code: <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/code/>
+Prefix: activity: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/activity/>
+Prefix: geo: <http://www.opengis.net/ont/geosparql#>
+Prefix: transportnetwork: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/>
+
+Ontology: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/transportalert>
+
+ObjectProperty: creationTime
+ObjectProperty: lastUpdateTime
+ObjectProperty: status
+ObjectProperty: distribution
+ObjectProperty: referencedAlert
+ObjectProperty: activities
+ObjectProperty: category
+ObjectProperty: effect
+ObjectProperty: recommendation
+ObjectProperty: urgency
+ObjectProperty: severity
+ObjectProperty: certainty
+ObjectProperty: beginTime
+ObjectProperty: expiryTime
+ObjectProperty: endTime
+ObjectProperty: location
+ObjectProperty: cause
+DataProperty: issuer
+DataProperty: website
+DataProperty: resources
+DataProperty: headline
+DataProperty: genProp:hasDescription
+ObjectProperty: affects
+
+Class: time:Instant
+Class: code:Code
+Class: activity:Activity
+Class: geo:Geometry
+Class: transportnetwork:NetworkElement
+
+Class: Alert
+	Annotations: rdfs:comment "Reflects a review of OASIS Common Alerting Protocol v1.2"
+	SubClassOf:
+		creationTime only time:Instant
+	SubClassOf:
+		creationTime exactly 1 time:Instant
+	SubClassOf:
+		lastUpdateTime only time:Instant
+	SubClassOf:
+		lastUpdateTime exactly 1 time:Instant
+	SubClassOf:
+		status only code:Code
+	SubClassOf:
+		status exactly 1 code:Code
+	SubClassOf:
+		distribution only code:Code
+	SubClassOf:
+		distribution exactly 1 code:Code
+	SubClassOf:
+		referencedAlert only Alert
+	SubClassOf:
+		activities only activity:Activity
+	SubClassOf:
+		category only code:Code
+	SubClassOf:
+		category exactly 1 code:Code
+	SubClassOf:
+		effect only code:Code
+	SubClassOf:
+		recommendation only code:Code
+	SubClassOf:
+		urgency only code:Code
+	SubClassOf:
+		urgency max 1 code:Code
+	SubClassOf:
+		severity only code:Code
+	SubClassOf:
+		severity max 1 code:Code
+	SubClassOf:
+		certainty only code:Code
+	SubClassOf:
+		certainty max 1 code:Code
+	SubClassOf:
+		beginTime only time:Instant
+	SubClassOf:
+		beginTime max 1 time:Instant
+	SubClassOf:
+		expiryTime only time:Instant
+	SubClassOf:
+		expiryTime exactly 1 time:Instant
+	SubClassOf:
+		endTime only time:Instant
+	SubClassOf:
+		endTime max 1 time:Instant
+	SubClassOf:
+		location only geo:Geometry
+	SubClassOf:
+		cause only code:Code
+	SubClassOf:
+		issuer only int
+	SubClassOf:
+		issuer exactly 1 int
+	SubClassOf:
+		website only URL
+	SubClassOf:
+		website exactly 1 URL
+	SubClassOf:
+		resources only URI
+	SubClassOf:
+		headline only xsd:string
+	SubClassOf:
+		headline exactly 1 xsd:string
+	SubClassOf:
+		genProp:hasDescription only xsd:string
+	SubClassOf:
+		genProp:hasDescription exactly 1 xsd:string
+Class: TransportAlert
+	SubClassOf: 
+		Alert
+	SubClassOf:
+		affects only transportnetwork:NetworkElement

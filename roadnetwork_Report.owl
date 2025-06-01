@@ -1,0 +1,155 @@
+Prefix: : <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/roadnetwork/>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: xml: <http://www.w3.org/XML/1998/namespace>
+Prefix: transportnetwork: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/>
+Prefix: transinfras: <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/transinfras/>
+Prefix: partwhole: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/>
+Prefix: cityunits: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/cityunits/>
+Prefix: code: <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/code/>
+
+Ontology: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/roadnetwork>
+
+ObjectProperty: partwhole:properPartOf
+ObjectProperty: partwhole:hasProperPart
+ObjectProperty: previous
+ObjectProperty: next
+DataProperty: width
+ObjectProperty: usedBy
+ObjectProperty: primaryUser
+DataProperty: maxLanes
+DataProperty: capacity
+ObjectProperty: uses
+ObjectProperty: speedLimit
+ObjectProperty: travelTime
+DataProperty: userCategory
+ObjectProperty: pavementType
+DataProperty: numLanes
+
+Class: transportnetwork:TravelledWay
+Class: transinfras:Road
+Class: transportnetwork:TravelledWayLane
+Class: transportnetwork:TravelledWayLink
+Class: transinfras:RoadLink
+Class: cityunits:Speed
+Class: cityunits:Duration
+Class: transportnetwork:TransportNetwork
+Class: transportnetwork:TravelledWaySection
+Class: transportnetwork:TravelledWaySegment
+Class: transinfras:RoadSegment
+Class: code:Code
+
+Class: Road
+	SubClassOf: 
+		transportnetwork:TravelledWay
+	SubClassOf: 
+		transinfras:Road
+	SubClassOf:
+		partwhole:properPartOf only RoadNetwork
+	SubClassOf:
+		partwhole:hasProperPart only RoadLink
+	SubClassOf:
+		partwhole:hasProperPart min 1 RoadLink
+Class: RoadLane
+	SubClassOf: 
+		transportnetwork:TravelledWayLane
+	SubClassOf:
+		previous only RoadLane
+	SubClassOf:
+		partwhole:properPartOf only RoadSegment
+	SubClassOf:
+		partwhole:properPartOf min 1 RoadSegment
+	SubClassOf:
+		next only RoadLane
+	SubClassOf:
+		width only int
+	SubClassOf:
+		width exactly 1 int
+Class: RoadLink
+	SubClassOf: 
+		transportnetwork:TravelledWayLink
+	SubClassOf: 
+		transinfras:RoadLink
+	SubClassOf:
+		partwhole:properPartOf only Road or RoadNetwork or RoadSection
+	SubClassOf:
+		partwhole:hasProperPart only RoadSegment
+	SubClassOf:
+		usedBy only RoadLinkUser
+	SubClassOf:
+		primaryUser only RoadLinkUser
+	SubClassOf:
+		primaryUser max 1 RoadLinkUser
+	SubClassOf:
+		maxLanes only nonNegativeInteger
+	SubClassOf:
+		maxLanes exactly 1 nonNegativeInteger
+	SubClassOf:
+		capacity only nonNegativeInteger
+	SubClassOf:
+		capacity exactly 1 nonNegativeInteger
+Class: RoadLinkUser
+	SubClassOf:
+		uses only RoadLink
+	SubClassOf:
+		uses exactly 1 RoadLink
+	SubClassOf:
+		uses only RoadLink
+	SubClassOf:
+		uses exactly 1 RoadLink
+	SubClassOf:
+		speedLimit only cityunits:Speed
+	SubClassOf:
+		speedLimit max 1 cityunits:Speed
+	SubClassOf:
+		travelTime only cityunits:Duration
+	SubClassOf:
+		travelTime max 1 cityunits:Duration
+	SubClassOf:
+		userCategory only RoadUserCategoryEnum
+	SubClassOf:
+		userCategory exactly 1 RoadUserCategoryEnum
+Class: RoadNetwork
+	SubClassOf: 
+		transportnetwork:TransportNetwork
+	SubClassOf:
+		partwhole:hasProperPart only RoadLink
+	SubClassOf:
+		partwhole:hasProperPart min 1 RoadLink
+	SubClassOf:
+		partwhole:hasProperPart only Road or RoadSection
+Class: RoadSection
+	SubClassOf: 
+		transportnetwork:TravelledWaySection
+	SubClassOf:
+		partwhole:properPartOf only RoadNetwork
+	SubClassOf:
+		partwhole:hasProperPart only RoadLink or RoadSegment
+Class: RoadSegment
+	SubClassOf: 
+		transportnetwork:TravelledWaySegment
+	SubClassOf: 
+		transinfras:RoadSegment
+	SubClassOf:
+		partwhole:properPartOf only RoadLink
+	SubClassOf:
+		partwhole:properPartOf exactly 1 RoadLink
+	SubClassOf:
+		partwhole:properPartOf only RoadSection
+	SubClassOf:
+		partwhole:hasProperPart only RoadLane
+	SubClassOf:
+		partwhole:hasProperPart min 1 RoadLane
+	SubClassOf:
+		pavementType only code:Code
+	SubClassOf:
+		pavementType max 1 code:Code
+	SubClassOf:
+		numLanes only int
+	SubClassOf:
+		numLanes exactly 1 int
+	SubClassOf:
+		width only int
+	SubClassOf:
+		width exactly 1 int

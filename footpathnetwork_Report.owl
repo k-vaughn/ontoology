@@ -1,0 +1,72 @@
+Prefix: : <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/footpathnetwork/>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: xml: <http://www.w3.org/XML/1998/namespace>
+Prefix: transportnetwork: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/>
+Prefix: partwhole: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/>
+
+Ontology: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/footpathnetwork>
+
+ObjectProperty: partwhole:properPartOf
+ObjectProperty: partwhole:hasProperPart
+
+Class: transportnetwork:TravelledWay
+Class: transportnetwork:TravelledWayLane
+Class: transportnetwork:TravelledWayLink
+Class: transportnetwork:TransportNetwork
+Class: transportnetwork:TravelledWaySection
+Class: transportnetwork:TravelledWaySegment
+
+Class: Footpath
+	SubClassOf: 
+		transportnetwork:TravelledWay
+	SubClassOf:
+		partwhole:properPartOf only FootpathNetwork
+	SubClassOf:
+		partwhole:hasProperPart only FootpathLink
+	SubClassOf:
+		partwhole:hasProperPart min 1 FootpathLink
+Class: FootpathLane
+	SubClassOf: 
+		transportnetwork:TravelledWayLane
+	SubClassOf:
+		partwhole:properPartOf only FootpathSegment
+	SubClassOf:
+		partwhole:properPartOf min 1 FootpathSegment
+Class: FootpathLink
+	SubClassOf: 
+		transportnetwork:TravelledWayLink
+	SubClassOf:
+		partwhole:properPartOf only Footpath or FootpathNetwork or FootpathSection
+	SubClassOf:
+		partwhole:hasProperPart only FootpathSegment
+Class: FootpathNetwork
+	SubClassOf: 
+		transportnetwork:TransportNetwork
+	SubClassOf:
+		partwhole:hasProperPart only FootpathLink
+	SubClassOf:
+		partwhole:hasProperPart min 1 FootpathLink
+	SubClassOf:
+		partwhole:hasProperPart only Footpath or FootpathSection
+Class: FootpathSection
+	SubClassOf: 
+		transportnetwork:TravelledWaySection
+	SubClassOf:
+		partwhole:properPartOf only FootpathNetwork
+	SubClassOf:
+		partwhole:hasProperPart only FootpathLink or FootpathSegment
+Class: FootpathSegment
+	SubClassOf: 
+		transportnetwork:TravelledWaySegment
+	SubClassOf:
+		partwhole:properPartOf only FootpathLink
+	SubClassOf:
+		partwhole:properPartOf min 1 FootpathLink
+	SubClassOf:
+		partwhole:properPartOf only FootpathSection
+	SubClassOf:
+		partwhole:hasProperPart only FootpathLane
+	SubClassOf:
+		partwhole:hasProperPart min 1 FootpathLane

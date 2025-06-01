@@ -1,0 +1,60 @@
+Prefix: : <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/railnetwork/>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: xml: <http://www.w3.org/XML/1998/namespace>
+Prefix: transportnetwork: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/>
+Prefix: partwhole: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/>
+
+Ontology: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/railnetwork>
+
+ObjectProperty: partwhole:properPartOf
+ObjectProperty: partwhole:hasProperPart
+
+Class: transportnetwork:TravelledWay
+Class: transportnetwork:TransportNetwork
+Class: transportnetwork:TravelledWaySection
+Class: transportnetwork:TravelledWayLink
+Class: transportnetwork:TravelledWaySegment
+
+Class: RailCorridor
+	SubClassOf: 
+		transportnetwork:TravelledWay
+	SubClassOf:
+		partwhole:properPartOf only RailNetwork
+	SubClassOf:
+		partwhole:hasProperPart only TrackLink
+	SubClassOf:
+		partwhole:hasProperPart min 1 TrackLink
+Class: RailNetwork
+	SubClassOf: 
+		transportnetwork:TransportNetwork
+	SubClassOf:
+		partwhole:hasProperPart only TrackLink
+	SubClassOf:
+		partwhole:hasProperPart min 1 TrackLink
+	SubClassOf:
+		partwhole:hasProperPart only RailCorridor or RailSection
+Class: RailSection
+	SubClassOf: 
+		transportnetwork:TravelledWaySection
+	SubClassOf:
+		partwhole:properPartOf only RailNetwork
+	SubClassOf:
+		partwhole:hasProperPart only TrackLink or TrackSegment
+Class: TrackLink
+	SubClassOf: 
+		transportnetwork:TravelledWayLink
+	SubClassOf:
+		partwhole:properPartOf only RailCorridor or RailNetwork or RailSection
+	SubClassOf:
+		partwhole:hasProperPart only TrackSegment
+Class: TrackSegment
+	SubClassOf: 
+		transportnetwork:TravelledWaySegment
+	SubClassOf:
+		partwhole:properPartOf only TrackLink
+	SubClassOf:
+		partwhole:properPartOf exactly 1 TrackLink
+	SubClassOf:
+		partwhole:properPartOf only RailSection

@@ -1,0 +1,43 @@
+Prefix: : <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/travelcorridor/>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: xml: <http://www.w3.org/XML/1998/namespace>
+Prefix: transportnetwork: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/>
+Prefix: partwhole: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/>
+
+Ontology: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/travelcorridor>
+
+ObjectProperty: partwhole:hasProperPart
+ObjectProperty: partwhole:properPartOf
+ObjectProperty: corridorElement
+
+Class: transportnetwork:TravelledWay
+Class: transportnetwork:TravelledWayLink
+Class: transportnetwork:TravelledWaySegment
+
+Class: TravelCorridor
+	SubClassOf: 
+		transportnetwork:TravelledWay
+	SubClassOf:
+		partwhole:hasProperPart only TravelCorridorLink
+	SubClassOf:
+		partwhole:hasProperPart min 1 TravelCorridorLink
+Class: TravelCorridorLink
+	SubClassOf: 
+		transportnetwork:TravelledWayLink
+	SubClassOf:
+		partwhole:properPartOf only TravelCorridor
+	SubClassOf:
+		partwhole:hasProperPart only TravelCorridorSegment
+	SubClassOf:
+		partwhole:hasProperPart min 1 TravelCorridorSegment
+Class: TravelCorridorSegment
+	SubClassOf: 
+		transportnetwork:TravelledWaySegment
+	SubClassOf:
+		partwhole:properPartOf only TravelCorridorLink
+	SubClassOf:
+		corridorElement only transportnetwork:TravelledWaySegment
+	SubClassOf:
+		corridorElement min 1 transportnetwork:TravelledWaySegment
