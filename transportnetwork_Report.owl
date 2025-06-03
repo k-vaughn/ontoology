@@ -1,156 +1,587 @@
-Prefix: : <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/>
-Prefix: owl: <http://www.w3.org/2002/07/owl#>
-Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-Prefix: xml: <http://www.w3.org/XML/1998/namespace>
-Prefix: geo: <http://www.opengis.net/ont/geosparql#>
-Prefix: partwhole: <https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/>
-Prefix: genProp: <https://www.w3.org/2001/XMLSchema#>
-Prefix: xsd: <https://www.w3.org/2001/XMLSchema#>
-Prefix: code: <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/code/>
-Prefix: time: <https://www.w3.org/2006/time#>
-Prefix: transinfras: <https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/transinfras/>
-Prefix: travelcorridor: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/travelcorridor/>
+<?xml version="1.0"?>
+<rdf:RDF xmlns="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/transportnetwork#"
+     xml:base="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/transportnetwork"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/transportnetwork"/>
+    
 
-Ontology: <https://standards.iso.org/iso-iec/5087/-3/ed-1/en/transportnetwork>
 
-ObjectProperty: partwhole:hasProperPart
-ObjectProperty: status
-ObjectProperty: partwhole:properPartOf
-DataProperty: genProp:hasIdentifier
-ObjectProperty: code
-ObjectProperty: timeInterval
-ObjectProperty: egress
-ObjectProperty: ingress
-DataProperty: designator
-ObjectProperty: from
-ObjectProperty: to
-ObjectProperty: allowedDirections
-ObjectProperty: travelCorridorSegment
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
 
-Class: geo:Feature
-Class: code:Code
-Class: time:DateTimeInterval
-Class: transinfras:TravelledWay
-Class: transinfras:TravelledWayLink
-Class: transinfras:TravelledWaySegment
-Class: travelcorridor:TravelCorridorSegment
 
-Class: Junction
-	SubClassOf: 
-		TransportNode
-Class: NetworkElement
-	SubClassOf: 
-		geo:Feature
-	SubClassOf:
-		partwhole:hasProperPart only NetworkElement
-	SubClassOf:
-		status only Status
-	SubClassOf:
-		partwhole:properPartOf only NetworkElement
-	SubClassOf:
-		genProp:hasIdentifier only xsd:string
-	SubClassOf:
-		genProp:hasIdentifier exactly 1 xsd:string
-Class: Status
-	SubClassOf:
-		code only code:Code
-	SubClassOf:
-		timeInterval only time:DateTimeInterval
-	SubClassOf:
-		timeInterval exactly 1 time:DateTimeInterval
-Class: TransportNetwork
-	SubClassOf: 
-		NetworkElement
-	SubClassOf:
-		partwhole:hasProperPart only TransportNode or TravelledWayLink or TravelledWay or TransportNetwork or TravelledWaySection
-	SubClassOf:
-		partwhole:properPartOf only TransportNetwork
-Class: TransportNode
-	SubClassOf: 
-		NetworkElement
-	SubClassOf:
-		partwhole:properPartOf only TransportNetwork
-	SubClassOf:
-		partwhole:properPartOf min 1 TransportNetwork
-	SubClassOf:
-		egress only TravelledWayLink
-	SubClassOf:
-		egress min 1 TravelledWayLink
-	SubClassOf:
-		ingress only TravelledWayLink
-	SubClassOf:
-		ingress min 1 TravelledWayLink
-Class: TravelledWay
-	SubClassOf: 
-		NetworkElement
-	SubClassOf: 
-		transinfras:TravelledWay
-	SubClassOf:
-		partwhole:hasProperPart only TravelledWayLink
-	SubClassOf:
-		partwhole:properPartOf only TransportNetwork
-	SubClassOf:
-		partwhole:properPartOf min 1 TransportNetwork
-	SubClassOf:
-		designator only xsd:string
-	SubClassOf:
-		designator exactly 1 xsd:string
-Class: TravelledWayLane
-	SubClassOf: 
-		NetworkElement
-	SubClassOf:
-		partwhole:properPartOf only TravelledWaySegment
-	SubClassOf:
-		partwhole:properPartOf exactly 1 TravelledWaySegment
-Class: TravelledWayLink
-	SubClassOf: 
-		NetworkElement
-	SubClassOf: 
-		transinfras:TravelledWayLink
-	SubClassOf:
-		partwhole:properPartOf only TransportNetwork
-	SubClassOf:
-		partwhole:properPartOf min 1 TransportNetwork
-	SubClassOf:
-		partwhole:properPartOf only TravelledWay or TravelledWaySection
-	SubClassOf:
-		from only TransportNode
-	SubClassOf:
-		from exactly 1 TransportNode
-	SubClassOf:
-		to only TransportNode
-	SubClassOf:
-		to exactly 1 TransportNode
-	SubClassOf:
-		partwhole:hasProperPart only TravelledWaySegment
-	SubClassOf:
-		allowedDirections only code:Code
-	SubClassOf:
-		allowedDirections max 1 code:Code
-Class: TravelledWaySection
-	SubClassOf: 
-		NetworkElement
-	SubClassOf:
-		partwhole:hasProperPart only TravelledWaySegment or TravelledWayLink
-	SubClassOf:
-		partwhole:properPartOf only TransportNetwork
-	SubClassOf:
-		partwhole:properPartOf min 1 TransportNetwork
-Class: TravelledWaySegment
-	SubClassOf: 
-		NetworkElement
-	SubClassOf: 
-		transinfras:TravelledWaySegment
-	SubClassOf:
-		partwhole:properPartOf only TravelledWayLink
-	SubClassOf:
-		partwhole:properPartOf min 1 TravelledWayLink
-	SubClassOf:
-		partwhole:properPartOf only TravelledWaySection
-	SubClassOf:
-		partwhole:hasProperPart only TravelledWayLane
-	SubClassOf:
-		partwhole:hasProperPart min 1 TravelledWayLane
-	SubClassOf:
-		travelCorridorSegment only travelcorridor:TravelCorridorSegment
+    
+
+
+    <!-- https://www.w3.org/2001/XMLSchema#string -->
+
+
+    <rdfs:Datatype rdf:about="https://www.w3.org/2001/XMLSchema#string"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/hasProperPart -->
+
+
+    <owl:ObjectProperty rdf:about="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/hasProperPart"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf -->
+
+
+    <owl:ObjectProperty rdf:about="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/allowedDirections -->
+
+
+    <owl:ObjectProperty rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/allowedDirections"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/code -->
+
+
+    <owl:ObjectProperty rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/code"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/egress -->
+
+
+    <owl:ObjectProperty rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/egress"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/from -->
+
+
+    <owl:ObjectProperty rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/from"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/ingress -->
+
+
+    <owl:ObjectProperty rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/ingress"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/status -->
+
+
+    <owl:ObjectProperty rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/status"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/timeInterval -->
+
+
+    <owl:ObjectProperty rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/timeInterval"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/to -->
+
+
+    <owl:ObjectProperty rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/to"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/travelCorridorSegment -->
+
+
+    <owl:ObjectProperty rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/travelCorridorSegment"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/designator -->
+
+
+    <owl:DatatypeProperty rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/designator"/>
+    
+
+
+    <!-- https://www.w3.org/2001/XMLSchema#hasIdentifier -->
+
+
+    <owl:DatatypeProperty rdf:about="https://www.w3.org/2001/XMLSchema#hasIdentifier"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://www.opengis.net/ont/geosparql#Feature -->
+
+
+    <owl:Class rdf:about="http://www.opengis.net/ont/geosparql#Feature"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/code/Code -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/code/Code"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/transinfras/TravelledWay -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/transinfras/TravelledWay"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/transinfras/TravelledWayLink -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/transinfras/TravelledWayLink"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/transinfras/TravelledWaySegment -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/transinfras/TravelledWaySegment"/>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/Junction -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/Junction">
+        <rdfs:subClassOf rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNode"/>
+    </owl:Class>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/NetworkElement -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/NetworkElement">
+        <rdfs:subClassOf rdf:resource="http://www.opengis.net/ont/geosparql#Feature"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/hasProperPart"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/NetworkElement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/NetworkElement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/status"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/Status"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://www.w3.org/2001/XMLSchema#hasIdentifier"/>
+                <owl:allValuesFrom rdf:resource="https://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://www.w3.org/2001/XMLSchema#hasIdentifier"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/Status -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/Status">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/code"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/code/Code"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/timeInterval"/>
+                <owl:allValuesFrom rdf:resource="https://www.w3.org/2006/time#DateTimeInterval"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/timeInterval"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://www.w3.org/2006/time#DateTimeInterval"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork">
+        <rdfs:subClassOf rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/NetworkElement"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork"/>
+                    <rdf:Description rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWay"/>
+                    <rdf:Description rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLink"/>
+                    <rdf:Description rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWaySection"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/hasProperPart"/>
+                        <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNode"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNode -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNode">
+        <rdfs:subClassOf rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/NetworkElement"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/egress"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLink"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/ingress"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLink"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/egress"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLink"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/ingress"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLink"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWay -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWay">
+        <rdfs:subClassOf rdf:resource="https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/transinfras/TravelledWay"/>
+        <rdfs:subClassOf rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/NetworkElement"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/hasProperPart"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLink"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/designator"/>
+                <owl:allValuesFrom rdf:resource="https://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/designator"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLane -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLane">
+        <rdfs:subClassOf rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/NetworkElement"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWaySegment"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWaySegment"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLink -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLink">
+        <rdfs:subClassOf rdf:resource="https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/transinfras/TravelledWayLink"/>
+        <rdfs:subClassOf rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/NetworkElement"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWaySection"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                        <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWay"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/hasProperPart"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWaySegment"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/allowedDirections"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/code/Code"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/from"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNode"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/to"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNode"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/from"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNode"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/to"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNode"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/allowedDirections"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/code/Code"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWaySection -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWaySection">
+        <rdfs:subClassOf rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/NetworkElement"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLink"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/hasProperPart"/>
+                        <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWaySegment"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TransportNetwork"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWaySegment -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWaySegment">
+        <rdfs:subClassOf rdf:resource="https://standards.iso.org/iso-iec/5087/-2/ed-1/en/ontology/transinfras/TravelledWaySegment"/>
+        <rdfs:subClassOf rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/NetworkElement"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/hasProperPart"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLane"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLink"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWaySection"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/travelCorridorSegment"/>
+                <owl:allValuesFrom rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/travelcorridor/TravelCorridorSegment"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/hasProperPart"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLane"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://standards.iso.org/iso-iec/5087/-1/ed-1/en/ontology/Mereology/properPartOf"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/transportnetwork/TravelledWayLink"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/travelcorridor/TravelCorridorSegment -->
+
+
+    <owl:Class rdf:about="https://standards.iso.org/iso-iec/5087/-3/ed-1/en/ontology/travelcorridor/TravelCorridorSegment"/>
+    
+
+
+    <!-- https://www.w3.org/2006/time#DateTimeInterval -->
+
+
+    <owl:Class rdf:about="https://www.w3.org/2006/time#DateTimeInterval"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 5.1.13.2020-01-27T22:08:36Z) https://github.com/owlcs/owlapi/ -->
+
